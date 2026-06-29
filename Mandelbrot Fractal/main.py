@@ -9,10 +9,12 @@ from PIL import Image
 # Colours
 PURE_WHITE = (255,255,255)
 PURE_BLACK = (0,0,0)
+RED = (250,0,0)
+
 
 
 # Global Variables
-res_x = 500
+res_x = 1024
 res_y = res_x
 timelapse_mode = False
 
@@ -28,7 +30,7 @@ def CheckMandelbrot(point: tuple, is_julia: bool):
         x = zx
         y = zy
     iteration = 0
-    max_iterations = 250
+    max_iterations = 700
     while(x*x + y*y <= 2*2 and iteration < max_iterations):
         new_x = (x*x) - (y*y) + cx
         y = (2*x*y) + cy
@@ -37,14 +39,19 @@ def CheckMandelbrot(point: tuple, is_julia: bool):
     if(iteration == max_iterations):
         return(PURE_BLACK)
     else:
-        color = round(50+205*iteration/max_iterations)
+        color = round(50+715*iteration/max_iterations)
+        while(color > 765):
+            color -= 255
         if(color > 255):
-            color = 255
+           if(color > 510):
+               return((255-color%510,color%510,0))
+           return((color%255,0,255-color%255))
         return((0,0,color))
 
 def GenMandelbrot(zoom: float):
     for ix in range(round(-gridx/2),round(gridx/2)):
         for iz in range(round(-gridz/2),round(gridz/2)):
+            #print(CheckMandelbrot((((ix+zoomx)/(gridx*zoom)),(iz+zoomz)/(gridz*zoom)), False))
             DISPLAYSURF.set_at((ix+round(gridx/2),iz+round(gridz/2)), CheckMandelbrot((((ix+zoomx)/(gridx*zoom)),(iz+zoomz)/(gridz*zoom)), False))
 
 def GenMandelbrotImage(zoom: float):
@@ -75,21 +82,21 @@ gridx = DISPLAYSURF.get_width()
 gridz = DISPLAYSURF.get_height()
 
 zoom = 0.125
-true_zoomx = -gridx/2
-true_zoomz = -gridz/2
+true_zoomx = (262.000000014993/500)
+true_zoomz = (250.90000001/500)
 zoomx = 0
 zoomz = 0
 
 for x in range(0):
     zoom = round(zoom*1.25, 3)
-    zoomx = round(true_zoomx * zoom)
 
-high_res = 500
+high_res = res_x
 
 zx = 0
 zy = 0
 
-display_live = False
+display_live = True
+debug_mode = False
 
 while True: # Main game loop.
     if(display_live):
@@ -99,10 +106,15 @@ while True: # Main game loop.
         zoom = round(zoom*1.25, 3)
         #zx -= 0.01
         #zy += 0.02
-        zoomx = round(true_zoomx * zoom)
-        zoomz = round(true_zoomz * zoom)
+        zoomx = round(-gridx * true_zoomx * zoom)
+        zoomz = round(-gridz * true_zoomz * zoom)
 
         GenMandelbrot(zoom)
+
+        if(debug_mode):
+            pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
+            pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
+
 
         #text_surface = my_font.render(f"Zoom: {zoom}", False, (255, 255, 255))
         #DISPLAYSURF.blit(text_surface, (0,0))
@@ -120,15 +132,15 @@ while True: # Main game loop.
                     print("Screenshot Saved")
                 if(event.key == pygame.K_F3):
                     print(f"Zoom: {zoom}")
+                if(event.key == pygame.K_0):
+                    print(pygame.mouse.get_pos())
     else:
         gridx = high_res
         gridz = high_res
 
         zoom = round(zoom*1.25, 3)
-        zoomx = round(true_zoomx * zoom)
-        zoomz = round(true_zoomz * zoom)
-
-        zoom *= 1.1
+        zoomx = round(-high_res * true_zoomx * zoom)
+        zoomz = round(-high_res * true_zoomz * zoom)
 
         GenMandelbrotImage(zoom)
         images_produced += 1

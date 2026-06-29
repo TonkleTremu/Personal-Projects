@@ -4,38 +4,34 @@ from datetime import datetime
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
-CANVAS_SIZE = 500
+CANVAS_SIZE = 51
 max_iterations = 100
 
-zoom = 0.25
-offset_x = -CANVAS_SIZE/2
-offset_y = -CANVAS_SIZE/2
+zoom = 1
+offset_x = 0
+offset_y = 0
 
 def CheckMandelbrot(point: tuple):
     cx = point[0]
     cy = point[1]
-    x = 1.1
-    y = 0
-    iteration = 0
-    while(x*x + y*y <= 2*2 and iteration < max_iterations):
-        new_x = (x*x) - (y*y) + cx
-        y = (2*x*y) + cy
-        x = new_x
+    x = cx
+    y = cy
+    iteration = 2
+    while(cx % iteration != 0 and iteration < x and x < CANVAS_SIZE-2):
+        cx = (cx+cy)^(2)
         iteration += 1
-    if(iteration == max_iterations):
-        return(BLACK)
+    if(cx % (iteration-1) != 0):
+        return((100,100,255))
     else:
-        color = round(255*iteration/25)
-        if(color > 255):
-            color = 255
-        return((0,0,color))
+        #print(cx, (x, y))
+        return((50,0,50))
     
 def GenMandelbrotImage():
     pixels = []
     start_time = datetime.now()
     for iy in range(round(CANVAS_SIZE)):
         for ix in range(round(CANVAS_SIZE)):
-            pixels.append(CheckMandelbrot((((ix+offset_x)/(CANVAS_SIZE*zoom)),(iy+offset_y)/(CANVAS_SIZE*zoom))))
+            pixels.append(CheckMandelbrot((ix,iy)))
         if(iy % 100 == 0):
             if(iy == CANVAS_SIZE/10):
                 cur_time = datetime.now()

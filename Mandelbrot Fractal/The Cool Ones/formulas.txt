@@ -1,0 +1,10 @@
+Heaven in an Icy Jail: 
+cx = (cx+cy)^2
+
+Crispy Honey: 
+x = cx 
+cx = (cx+cy)^(x/20)
+
+Line Grid:
+cx = cx%(cy+1)*3
+cy = cx/(cy+1)
