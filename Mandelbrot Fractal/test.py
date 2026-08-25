@@ -14,7 +14,7 @@ offset_y = -CANVAS_SIZE/2
 def CheckMandelbrot(point: tuple):
     cx = point[0]
     cy = point[1]
-    x = 1.1
+    x = 0
     y = 0
     iteration = 0
     while(x*x + y*y <= 2*2 and iteration < max_iterations):
@@ -46,7 +46,7 @@ def GenMandelbrotImage():
     
     img = Image.new("RGB", (CANVAS_SIZE,CANVAS_SIZE))
     img.putdata(pixels)
-    img.save("C:/Users/tommy/Documents/GitHub/Personal-Projects/Mandelbrot Fractal/image.jpg")
+    img.save("image.jpg")
     print("Image Saved!")
 
 GenMandelbrotImage()

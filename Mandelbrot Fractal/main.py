@@ -14,7 +14,7 @@ RED = (250,0,0)
 
 
 # Global Variables
-res_x = 1024
+res_x = 500
 res_y = res_x
 timelapse_mode = False
 
@@ -34,7 +34,7 @@ def CheckMandelbrot(point: tuple, is_julia: bool):
     while(x*x + y*y <= 2*2 and iteration < max_iterations):
         new_x = (x*x) - (y*y) + cx
         y = (2*x*y) + cy
-        x = new_x
+        x = -new_x
         iteration += 1
     if(iteration == max_iterations):
         return(PURE_BLACK)
@@ -81,7 +81,7 @@ images_produced = 0
 gridx = DISPLAYSURF.get_width()
 gridz = DISPLAYSURF.get_height()
 
-zoom = 0.125
+zoom = 0.125 # There is currently an issue where zooming in too far makes the image pixelated, due to Python's floats not being accurate.
 true_zoomx = (262.000000014993/500)
 true_zoomz = (250.90000001/500)
 zoomx = 0

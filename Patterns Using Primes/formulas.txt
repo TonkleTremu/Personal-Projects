@@ -1,0 +1,14 @@
+Northern Lights: 
+cx = (cx+cy)^2
+
+Crispy Honey: 
+x = cx 
+cx = (cx+cy)^(x/20)
+
+Line Grid:
+cx = cx%(cy+1)*3
+cy = cx/(cy+1)
+
+Regular Mandelbrot:
+true_zoomx = (262.000000014993/500)
+true_zoomz = (250.90000001/500)
