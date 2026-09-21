@@ -264,11 +264,6 @@ while True: # Main game loop - like Unity's "update" void thing.
         pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
         pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
     MoveCam()
-    try:
-        #langsantdir = MoveAnt(langsantdir)
-        print()
-    except:
-        print("The Ant has broke containment.")
     if(pygame.key.get_pressed()[K_SPACE]):
         y -= 0.1
     if(pygame.key.get_pressed()[K_LSHIFT]):
