@@ -2,7 +2,7 @@ import math
 
 max_iterations = 1000
 
-x = 0
+x = 1
 
 prime_lengths = []
 non_prime_lengths = []
