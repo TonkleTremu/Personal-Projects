@@ -1,6 +1,15 @@
 import pygame, sys, math, random
 from pygame.locals import *
 
+# Colours
+PURE_WHITE = (255,255,255)
+PURE_BLACK = (0,0,0)
+PURE_RED = (255,0,0)
+NIGHT_SKY_BLUE = (10,20,140)
+MINT = (61, 255, 171)
+GRAY = (124,125,127)
+SUNSET = (250, 100, 10)
+
 # Stuff used for recording.
 record_screen = False
 images_produced = 0
@@ -8,18 +17,26 @@ images_produced = 0
 # Set to true for screensaver distributions.
 screensaver = False
 
-# Asks what base should be used, and other setup stuff.
-base = input("1. Screensaver-esque Pattern\n2. Randomly Moving Circle\n3. Curly Venn Diagram\n4. Tuple Pendulum\n")
+# Variables that define what the program looks like.
 render_lines = False
 render_circle = False
 after_images = False
 
-pendulums = int(input("How many pendulums should be used? (800 is nice for screensavers.)\n"))
+if(screensaver):
+    base = "1"
+    pendulums = 800
+    rot_speed = 0.05
+    after_images = True
+else:
+    # Asks what base should be used, and other setup stuff.
+    base = input("1. Screensaver-esque Pattern\n2. Randomly Moving Circle\n3. Curly Venn Diagram\n4. Tuple Pendulum\n")
 
-if(base == "4"):
-    rot_speed = float(input("How fast should the circle move? (Lower speed gives smoother result - 0.05 is a nice number to use.)\n"))
+    pendulums = int(input("How many pendulums should be used? (800 is nice for screensavers.)\n"))
 
-after_images = input("Would you like after-images? (They work nicely for screensavers, but make it difficult to see what's happening.) Y/N\n").lower()[0] == "y"
+    if(base == "4"):
+        rot_speed = float(input("How fast should the circle move? (Lower speed gives smoother result - 0.05 is a nice number to use.)\n"))
+
+    after_images = input("Would you like after-images? (They work nicely for screensavers, but make it difficult to see what's happening.) Y/N\n").lower()[0] == "y"
 
 # Setup stuff.
 pygame.init()
@@ -30,16 +47,11 @@ else:
 res_x = DISPLAYSURF.get_width()
 res_y = DISPLAYSURF.get_height()
 pygame.display.set_caption("Frictionless Pendulum")
+ICON = pygame.Surface((32,32))
+ICON.fill(PURE_WHITE)
+pygame.draw.circle(ICON, GRAY, (16,16), 16)
+pygame.display.set_icon(ICON)
 fpsClock = pygame.time.Clock()
-
-# Colours
-PURE_WHITE = (255,255,255)
-PURE_BLACK = (0,0,0)
-PURE_RED = (255,0,0)
-NIGHT_SKY_BLUE = (10,20,140)
-MINT = (61, 255, 171)
-GRAY = (124,125,127)
-SUNSET = (250, 100, 10)
 
 # Objects
 double_pendulum_size = 50
@@ -111,7 +123,7 @@ while True: # Main game loop.
         if(render_lines):
             pygame.draw.line(DISPLAYSURF, uni_color, pendulum_ends[p], pendulum_ends[p-1], 10)
     if(render_circle):
-        pygame.draw.circle(DISPLAYSURF, (uni_color), pendulum_ends[-1], 20)
+        pygame.draw.circle(DISPLAYSURF, uni_color, pendulum_ends[-1], 20)
     pygame.display.update()
     if(record_screen):
         pygame.image.save(DISPLAYSURF, f"tempvideofolder/image{images_produced}.png")
