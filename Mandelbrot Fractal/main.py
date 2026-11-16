@@ -34,7 +34,7 @@ def CheckMandelbrot(point: tuple, is_julia: bool):
     while(x*x + y*y <= 2*2 and iteration < max_iterations):
         new_x = (x*x) - (y*y) + cx
         y = (2*x*y) + cy
-        x = -new_x
+        x = new_x
         iteration += 1
     if(iteration == max_iterations):
         return(PURE_BLACK)

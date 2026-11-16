@@ -164,13 +164,19 @@ def MoveAntWithSkips(antdir):
         square.color = GRAY
         antdir += 1
     elif(square.color == GRAY):
+        square.color = (120,120,140)
+    elif(square.color == (120,120,140)):
+        square.color = (160,120,120)
+        antdir -= 1
+    elif(square.color == (160,120,120)):
         square.color = PURE_WHITE
+        antdir += 1
     return(antdir)
 
 
 
 # Resx,Resy,GridType,Para1,Para2,Para3,Para4,Prewarm
-code = input("What is the code?\n").split(",")
+code = input("What is the code? Example: 500,500,0,0,0,0,0,0\n").split(",")
 res_x = int(code[0])
 res_y = int(code[1])
 para1 = int(code[3])
@@ -224,7 +230,7 @@ grid_objects.append(langsant)
 
 for x in range(prewarm):
     try:
-        langsantdir = MoveAnt(langsantdir)
+        langsantdir = MoveAntWithSkips(langsantdir)
         iterations += 1
     except:
         print("The Ant has broke containment.")
@@ -247,7 +253,7 @@ while True: # Main game loop.
         #print(f"Time is {datetime.datetime.now()}\nIterations: {iterations}")
 
     try:
-        langsantdir = MoveAnt(langsantdir)
+        langsantdir = MoveAntWithSkips(langsantdir)
         iterations += 1
     except:
         if(reached_border == False):
