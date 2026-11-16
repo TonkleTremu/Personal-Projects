@@ -164,8 +164,8 @@ def MoveAntWithSkips(antdir):
         square.color = GRAY
         antdir += 1
     elif(square.color == GRAY):
-        square.color = (120,120,140)
-    elif(square.color == (120,120,140)):
+        square.color = (120,120,160)
+    elif(square.color == (120,120,160)):
         square.color = (160,120,120)
         antdir -= 1
     elif(square.color == (160,120,120)):
